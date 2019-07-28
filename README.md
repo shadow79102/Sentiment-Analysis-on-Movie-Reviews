@@ -17,6 +17,7 @@ Training files along with pretrained models of the following models are added:
 * Unigram model (accuracy: 0.703)
 * Bigram model (accuracy: 0.786)
 * Ngram model (accuracy: 0.912)
+
 Results of all the models are added.
 
 ----
