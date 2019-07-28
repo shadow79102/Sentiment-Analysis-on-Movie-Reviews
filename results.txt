@@ -1,0 +1,23 @@
+Below mentioned are the accuracy and training times for different models (Processor: Intel core i5).
+
+Note: all the readings are taken over 25 iterations
+
+Top-N features:
+avg_accuracy: 0.807
+max_accuracy: 0.83
+avg_training_time: 11.302 seconds
+
+Unigram features:
+avg_accuracy: 0.703
+max_accuracy: 0.757
+avg_training_time: 5.588 seconds
+
+Bigram features:
+avg_accuracy: 0.786
+max_accuracy: 0.84
+avg_training_time: 16.95 seconds
+
+Ngram features:
+avg_accuracy: 0.912
+max_accuracy: 0.935
+avg_training_time: 30.211 seconds
