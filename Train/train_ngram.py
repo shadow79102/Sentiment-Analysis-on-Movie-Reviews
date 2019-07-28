@@ -7,12 +7,9 @@ import string
 from nltk import NaiveBayesClassifier as NBC
 from nltk import classify
 from nltk.tokenize import word_tokenize
-import pickle
-import time
+#import pickle
 
 stopWords = stopwords.words('english')
-
-t1 = time.time()
 
 def unigram_words(words):
     words_modified = []
@@ -67,15 +64,6 @@ linking_words = ['and', 'any', 'anyone', 'anything', 'are', 'be', 'best', 'can',
                  'whole', 'why', 'will', 'wish', "won't", 'would',"wouldn't", 'you', "you'll",
                  'your', "you're", 'yourself']
 
-#def bag_of_all_words(words):
-    #all_feature_words = unigram_words(words)
-    #all_feature_words.extend(generate_ngrams(words, linking_words))
-    #all_feature_words.extend(generate_ngrams(words, linking_words, forward = False))
- 
-    #all_features = dict([word, True] for word in all_feature_words)
- 
-    #return all_features
-
 pos_reviews = []
 for fileid in movie_reviews.fileids('pos'):
     words = movie_reviews.words(fileid)
@@ -100,35 +88,19 @@ for words in neg_reviews:
     neg_features.append((dict([word, True] for word in generate_ngrams(words, linking_words)), 'neg'))
     neg_features.append((dict([word, True] for word in generate_ngrams(words, linking_words, forward = False)), 'neg'))
 
-max_accuracy = 0
-avg_accuracy = 0
-
-t2 = time.time()
-
-total_time = 0
-
-for i in range(25):
-    t3 = time.time()
-    shuffle(pos_features)
-    shuffle(neg_features)
+shuffle(pos_features)
+shuffle(neg_features)
  
-    test_feature_set = pos_features[:300] + neg_features[:300]
-    train_feature_set = pos_features[300:] + neg_features[300:]
+test_feature_set = pos_features[:300] + neg_features[:300]
+train_feature_set = pos_features[300:] + neg_features[300:]
 
-    classifier = NBC.train(train_feature_set)
+classifier = NBC.train(train_feature_set)
  
-    accuracy = classify.accuracy(classifier, test_feature_set)
-    print (accuracy)
-    avg_accuracy += accuracy
-    if(accuracy > max_accuracy):
-        max_accuracy = accuracy
-        f = open('ngram_classifier.pickle', 'wb')
-        pickle.dump(classifier, f)
-        f.close()
-    total_time += (time.time() - t3)
-    
-print ("avg_accuracy: " + (str)(avg_accuracy / 25.0))
-print ("avg_execution_time: " + (str)((t2 - t1) + total_time / 25.0))
+accuracy = classify.accuracy(classifier, test_feature_set)
+print (accuracy)
+#f = open('ngram_classifier.pickle', 'wb')
+#pickle.dump(classifier, f)
+#f.close()
 
 while(1):
     custom_review = input("Enter a custom movie review (Press ENTER key to exit):\n")

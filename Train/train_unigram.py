@@ -7,13 +7,9 @@ import string
 from nltk import NaiveBayesClassifier as NBC
 from nltk import classify
 from nltk.tokenize import word_tokenize
-import pickle
-import sys
-import time
+#import pickle
 
 stopWords = stopwords.words('english')
-
-t1 = time.time()
 
 pos_reviews = []
 for fileid in movie_reviews.fileids('pos'):
@@ -44,41 +40,24 @@ neg_features = []
 for words in neg_reviews:
     neg_features.append((bag_of_words(words), 'neg'))
 
-max_accuracy = 0
-avg_accuracy = 0
-
-t2 = time.time()
-
-total_time = 0
-
-for i in range(25):
-    t3 = time.time()
-    shuffle(pos_features)
-    shuffle(neg_features)
+shuffle(pos_features)
+shuffle(neg_features)
  
-    test_feature_set = pos_features[:200] + neg_features[:200]
-    train_feature_set = pos_features[200:] + neg_features[200:]
+test_feature_set = pos_features[:200] + neg_features[:200]
+train_feature_set = pos_features[200:] + neg_features[200:]
 
-    classifier = NBC.train(train_feature_set)
+classifier = NBC.train(train_feature_set)
  
-    accuracy = classify.accuracy(classifier, test_feature_set)
-    print(accuracy)
-    print (accuracy)
-    avg_accuracy += accuracy
-    if(accuracy > max_accuracy):
-        max_accuracy = accuracy
-        f = open('unigram_classifier.pickle', 'wb')
-        pickle.dump(classifier, f)
-        f.close()
-    total_time += (time.time() - t3)
-    
-print ("avg_accuracy: " + (str)(avg_accuracy / 25.0))
-print ("avg_execution_time: " + (str)((t2 - t1) + total_time / 25.0))
+accuracy = classify.accuracy(classifier, test_feature_set)
+print(accuracy)
+#f = open('unigram_classifier.pickle', 'wb')
+#pickle.dump(classifier, f)
+#f.close()
 
 while(1):
     custom_review = input("Enter a custom movie review (Press ENTER key to exit):\n")
     if(len(custom_review) < 1):
-        sys.exit()
+        break
     custom_review_tokens = word_tokenize(custom_review)
     custom_feature_set = bag_of_words(custom_review_tokens)
     print (classifier.classify(custom_feature_set))

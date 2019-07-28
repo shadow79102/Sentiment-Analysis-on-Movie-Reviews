@@ -14,6 +14,7 @@ import pickle
 import sys
 from random import shuffle
 
+#give the complete path to the pretrained model
 f = open('topN_classifier.pickle', 'rb')
 classifier = pickle.load(f)
 f.close()

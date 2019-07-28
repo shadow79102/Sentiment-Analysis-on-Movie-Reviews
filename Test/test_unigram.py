@@ -12,6 +12,7 @@ from nltk.tokenize import word_tokenize
 import pickle
 import sys
 
+#give the complete path to the pretrained model
 f = open('unigram_classifier.pickle', 'rb')
 classifier = pickle.load(f)
 f.close()
